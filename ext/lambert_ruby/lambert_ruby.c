@@ -20,9 +20,9 @@ static VALUE p_init(int argc, VALUE* argv, VALUE self)
   Check_Type(y,T_FLOAT);
   Check_Type(z,T_FLOAT);
 
-  rb_iv_set(self, "@x", rb_float_new(x));
-  rb_iv_set(self, "@y", rb_float_new(y));
-  rb_iv_set(self, "@z", rb_float_new(z));
+  rb_iv_set(self, "@x", x);
+  rb_iv_set(self, "@y", y);
+  rb_iv_set(self, "@z", z);
 
   return self;
 }
