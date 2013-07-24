@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'lambert_ruby'
   s.version     = '1.0.0'
-  s.date        = '2010-04-28'
+  s.date        = '2013-07-24'
   s.summary     = "Ruby wrapper for the lambert library"
   s.description = "Ruby wrapper for the lambert library"
   s.authors     = ["Yannick Heinrich"]

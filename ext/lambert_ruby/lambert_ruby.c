@@ -52,9 +52,13 @@ static VALUE p_convert(VALUE self,VALUE zone){
 void Init_lambert_ruby(void) {
 
 	rb_mLambert = rb_define_module("Lambert");
-	rb_cPoint = rb_define_class_under(rb_mLambert,"Point",rb_cObject);
+	rb_cPoint = rb_define_class_under(rb_mLambert,"LambertPoint",rb_cObject);
+	rb_define_attr(rb_cPoint,"x",1,1);
+	rb_define_attr(rb_cPoint,"y",1,1);
+	rb_define_attr(rb_cPoint,"z",1,1);
 
 	rb_define_method(rb_cPoint,"initialize",p_init,-1);
+	rb_define_method(rb_cPoint,"wgs84",p_convert,1);
 
 	rb_define_const(rb_mLambert,"LambertI",INT2NUM(LAMBERT_I));
 	rb_define_const(rb_mLambert,"LambertII",INT2NUM(LAMBERT_II));
