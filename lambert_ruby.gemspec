@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
   s.description = "Ruby wrapper for the lambert library"
   s.authors     = ["Yannick Heinrich"]
   s.email       = 'yannick.heinrich@gmail.com'
-  s.files       = ["lib/lambert_ruby.rb"]
+   s.files = Dir.glob('lib/**/*.rb') +
+            Dir.glob('ext/**/*.{c,h,rb}')
   s.homepage    ='http://rubygems.org/gems/hola'
 end
