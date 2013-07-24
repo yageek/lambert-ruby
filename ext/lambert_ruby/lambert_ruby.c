@@ -1,21 +1,65 @@
 #include <ruby.h>
+#include "lambert.h"
 
-#include <ruby.h>
+static VALUE rb_mLambert;
+static VALUE rb_cPoint;
 
-/* our new native method; it just returns
- * the string "bonjour!" */
-static VALUE hola_bonjour(VALUE self) {
-  return rb_str_new2("bonjour!");
+static VALUE p_init(int argc, VALUE* argv, VALUE self)
+{
+
+  VALUE x, y, z;
+
+  rb_scan_args(argc,argv, "21",&x, &y, &z);
+
+  if(NIL_P(z))
+  {
+  	z = rb_float_new(0.0);
+  }
+
+  Check_Type(x,T_FLOAT);
+  Check_Type(y,T_FLOAT);
+  Check_Type(z,T_FLOAT);
+
+  rb_iv_set(self, "@x", rb_float_new(x));
+  rb_iv_set(self, "@y", rb_float_new(y));
+  rb_iv_set(self, "@z", rb_float_new(z));
+
+  return self;
 }
 
-/* ruby calls this to load the extension */
-void Init_hola(void) {
-  /* assume we haven't yet defined Hola */
-  VALUE klass = rb_define_class("Lambert",
-      rb_cObject);
+static VALUE p_convert(VALUE self,VALUE zone){
 
-  /* the hola_bonjour function can be called
-   * from ruby as "Hola.bonjour" */
-  rb_define_singleton_method(klass,
-      "bonjour", hola_bonjour, 0);
+	double x, y, z;
+	LambertZone cZone = NUM2INT(zone);
+
+	x = NUM2DBL(rb_iv_get(self,"@x"));
+	y = NUM2DBL(rb_iv_get(self,"@y"));
+	z = NUM2DBL(rb_iv_get(self,"@z"));
+
+	YGLambertPoint org = {x,y,z};
+	YGLambertPoint dest = {0,0,0};
+
+	lambert_to_wgs84_deg(&org,&dest,cZone);
+
+   rb_iv_set(self, "@x", rb_float_new(dest.x));
+   rb_iv_set(self, "@y", rb_float_new(dest.y));
+   rb_iv_set(self, "@z", rb_float_new(dest.z));
+
+
+	return Qnil;
+}
+
+void Init_lambert_ruby(void) {
+
+	rb_mLambert = rb_define_module("Lambert");
+	rb_cPoint = rb_define_class_under(rb_mLambert,"Point",rb_cObject);
+
+	rb_define_method(rb_cPoint,"initialize",p_init,-1);
+
+	rb_define_const(rb_mLambert,"LambertI",INT2NUM(LAMBERT_I));
+	rb_define_const(rb_mLambert,"LambertII",INT2NUM(LAMBERT_II));
+	rb_define_const(rb_mLambert,"LambertIII",INT2NUM(LAMBERT_III));
+	rb_define_const(rb_mLambert,"LambertIV",INT2NUM(LAMBERT_IV));
+	rb_define_const(rb_mLambert,"LambertIIExtended",INT2NUM(LAMBERT_II_E));
+	rb_define_const(rb_mLambert,"Lambert93",INT2NUM(LAMBERT_93));
 }
