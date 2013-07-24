@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
   s.files = Dir.glob('lib/**/*.rb') +
             Dir.glob('ext/**/*.{c,h,rb}')
   s.extensions = ['ext/lambert_ruby/extconf.rb']
-  s.homepage    ='http://rubygems.org/gems/hola'
+  s.homepage    ='http://rubygems.org/gems/lambert_ruby'
 end
