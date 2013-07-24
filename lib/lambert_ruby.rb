@@ -1,6 +1,8 @@
 class Lambert
+
 def self.hi
-    puts "Hello world!"
+    "hello world"
   end
+
 end
 
