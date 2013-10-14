@@ -30,14 +30,14 @@ static VALUE p_init(int argc, VALUE* argv, VALUE self)
 static VALUE p_convert(VALUE self,VALUE zone){
 
 	double x, y, z;
-	LambertZone cZone = NUM2INT(zone);
+	YGLambertZone cZone = NUM2INT(zone);
 
 	x = NUM2DBL(rb_iv_get(self,"@x"));
 	y = NUM2DBL(rb_iv_get(self,"@y"));
 	z = NUM2DBL(rb_iv_get(self,"@z"));
 
-	YGLambertPoint org = {x,y,z};
-	YGLambertPoint dest = {0,0,0};
+	YGPoint org = {x,y,z};
+	YGPoint dest = {0,0,0};
 
 	lambert_to_wgs84_deg(&org,&dest,cZone);
 
