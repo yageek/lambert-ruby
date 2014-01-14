@@ -36,14 +36,13 @@ static VALUE p_convert(VALUE self,VALUE zone){
 	y = NUM2DBL(rb_iv_get(self,"@y"));
 	z = NUM2DBL(rb_iv_get(self,"@z"));
 
-	YGPoint org = {x,y,z};
-	YGPoint dest = {0,0,0};
+	YGPoint org = YGMeterPoint(x,y,z);
+	org = YGPointConvertWGS84(org,cZone);
+	org = YGPointToDegree(org);
 
-	lambert_to_wgs84_deg(&org,&dest,cZone);
-
-   rb_iv_set(self, "@x", rb_float_new(dest.x));
-   rb_iv_set(self, "@y", rb_float_new(dest.y));
-   rb_iv_set(self, "@z", rb_float_new(dest.z));
+   rb_iv_set(self, "@x", rb_float_new(org.x));
+   rb_iv_set(self, "@y", rb_float_new(org.y));
+   rb_iv_set(self, "@z", rb_float_new(org.z));
 
 
 	return Qnil;
