@@ -1,3 +1,3 @@
 [submodule "ext/lambert_ruby/lambert"]
 	path = ext/lambert_ruby/lambert
-	url = https://github.com/YaGeek/lambert.git
+	url = https://github.com/yageek/lambert
