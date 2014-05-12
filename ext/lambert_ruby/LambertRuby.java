@@ -66,9 +66,18 @@ public class LambertRuby implements BasicLibraryService {
       localY = y.getDoubleValue();
       localZ = z.getDoubleValue();
 
-      net.yageek.lambert.LambertPoint pt = net.yageek.lambert.Lambert.convertToWGS84Deg(localX,localY, net.yageek.lambert.LambertZone(zoneInt));
+      LambertZone jZone = net.yageek.lambert.LambertZone.Lambert93;;
+      switch(((int) zoneInt)){
+        case 0: jZone = net.yageek.lambert.LambertZone.LambertI; break;
+        case 1: jZone = net.yageek.lambert.LambertZone.LambertII; break;
+        case 2: jZone = net.yageek.lambert.LambertZone.LambertIII; break;
+        case 3: jZone = net.yageek.lambert.LambertZone.LambertIV; break;
+        case 4: jZone = net.yageek.lambert.LambertZone.LambertIIExtended; break;
+        case 5: jZone = net.yageek.lambert.LambertZone.Lambert93; break;
+        default:
+      }
 
-
+      net.yageek.lambert.LambertPoint pt = net.yageek.lambert.Lambert.convertToWGS84Deg(localX,localY, jZone);
 
     }
 
