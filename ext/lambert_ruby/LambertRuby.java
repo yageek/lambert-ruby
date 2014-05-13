@@ -55,6 +55,14 @@ public class LambertRuby implements BasicLibraryService {
 
     }
 
+
+    @JRubyMethod
+    public void initialize(Thread context, IRubyObject x, IRubyObject y,IRubyObject z){
+      this.x = (RubyFloat) x;
+      this.y = (RubyFloat) y;
+      this.z = (RubyFloat) z;
+
+    }
     @JRubyMethod
     public void wgs84(ThreadContext context, IRubyObject zone){
 
@@ -78,6 +86,10 @@ public class LambertRuby implements BasicLibraryService {
       }
 
       net.yageek.lambert.LambertPoint pt = net.yageek.lambert.Lambert.convertToWGS84Deg(localX,localY, jZone);
+
+      x = new RubyFloat(this.getRuntime(), localX);
+      y = new RubyFloat(this.getRuntime(), localY);
+      z = new RubyFloat(this.getRuntime(), localZ);
 
     }
 
