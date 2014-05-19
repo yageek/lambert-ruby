@@ -6,7 +6,7 @@ public class LambertPoint {
     private double y;
     private double z;
 
-    LambertPoint(double x, double y , double z){
+    public LambertPoint(double x, double y , double z){
         this.x = x;
         this.y = y;
         this.z = z;
