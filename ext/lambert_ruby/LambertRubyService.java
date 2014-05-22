@@ -1,4 +1,4 @@
-package net.yageek.lambertruby;
+package com.yageek.lambertruby;
 
 
 import java.lang.Long;
@@ -11,6 +11,7 @@ import org.jruby.RubyFloat;
 import org.jruby.RubyModule;
 import org.jruby.RubyObject;
 import org.jruby.anno.JRubyMethod;
+import org.jruby.anno.JRubyClass;
 import org.jruby.runtime.ObjectAllocator;
 import org.jruby.runtime.ThreadContext;
 import org.jruby.runtime.builtin.IRubyObject;
@@ -19,7 +20,7 @@ import org.jruby.runtime.load.BasicLibraryService;
 
 import net.yageek.lambert.*;
 
-public class LambertRuby implements BasicLibraryService {
+public class LambertRubyService implements BasicLibraryService {
 
   private Ruby runtime;
 
@@ -33,23 +34,22 @@ public class LambertRuby implements BasicLibraryService {
 
       public IRubyObject allocate(Ruby runtime, RubyClass rubyClass){
 
-        return new LambertPoint(runtime, rubyClass);
-
+        return new LambertPointRuby(runtime, rubyClass);
   }
 
     });
 
-      lambertPoint.defineAnnotatedMethods(LambertPoint.class);
+      lambertPoint.defineAnnotatedMethods(LambertPointRuby.class);
 
        return true;
   }
 
+  @JRubyClass(name = "Lambert::LambertPoint")
+  public class LambertPointRuby extends RubyObject{
 
-  public class LambertPoint extends RubyObject{
+    private LambertPoint jPoint;
 
-    private net.yageek.lambert.LambertPoint jPoint;
-
-    public LambertPoint(final Ruby runtime, RubyClass rubyClass){
+    public LambertPointRuby(final Ruby runtime, RubyClass rubyClass){
       super(runtime, rubyClass);
 
       setInstanceVariable("@x",runtime.newFloat(0.0));
@@ -61,7 +61,7 @@ public class LambertRuby implements BasicLibraryService {
 
     @JRubyMethod
     public void initialize(Thread context, IRubyObject x, IRubyObject y,IRubyObject z){
-        this.jPoint = new net.yageek.lambert.LambertPoint(x.convertToFloat().getDoubleValue() ,y.convertToFloat().getDoubleValue(), z.convertToFloat().getDoubleValue());
+        this.jPoint = new LambertPoint(x.convertToFloat().getDoubleValue() ,y.convertToFloat().getDoubleValue(), z.convertToFloat().getDoubleValue());
     }
 
 
@@ -72,16 +72,16 @@ public class LambertRuby implements BasicLibraryService {
 
       LambertZone jZone = net.yageek.lambert.LambertZone.Lambert93;;
       switch(((int) zoneInt)){
-        case 0: jZone = net.yageek.lambert.LambertZone.LambertI; break;
-        case 1: jZone = net.yageek.lambert.LambertZone.LambertII; break;
-        case 2: jZone = net.yageek.lambert.LambertZone.LambertIII; break;
-        case 3: jZone = net.yageek.lambert.LambertZone.LambertIV; break;
-        case 4: jZone = net.yageek.lambert.LambertZone.LambertIIExtended; break;
-        case 5: jZone = net.yageek.lambert.LambertZone.Lambert93; break;
+        case 0: jZone = LambertZone.LambertI; break;
+        case 1: jZone = LambertZone.LambertII; break;
+        case 2: jZone = LambertZone.LambertIII; break;
+        case 3: jZone = LambertZone.LambertIV; break;
+        case 4: jZone = LambertZone.LambertIIExtended; break;
+        case 5: jZone = LambertZone.Lambert93; break;
         default:
       }
 
-      this.jPoint = net.yageek.lambert.Lambert.convertToWGS84(this.jPoint, jZone);
+      this.jPoint = Lambert.convertToWGS84(this.jPoint, jZone);
       this.jPoint.toDegree();
 
       setInstanceVariable("@x",runtime.newFloat(jPoint.getX()));
@@ -89,8 +89,6 @@ public class LambertRuby implements BasicLibraryService {
       setInstanceVariable("@z",runtime.newFloat(jPoint.getZ()));
 
     }
-
-
 
   }
   }
