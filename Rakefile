@@ -1,11 +1,9 @@
-require 'rake/testtask'
-require 'rake/extensiontask'
+spec = Gem::Specification.load('lambert_ruby.gemspec')
 
-Rake::ExtensionTask.new('lambert_ruby')
-
-Rake::TestTask.new do |t|
-  t.libs << 'test'
+if RUBY_PLATFORM =~ /java/
+  require 'rake/javaextensiontask'
+  Rake::JavaExtensionTask.new('lambert_ruby', spec)
+else
+  require 'rake/extensiontask'
+  Rake::ExtensionTask.new('lambert_ruby', spec)
 end
-
-desc "Run tests"
-task :default => :test

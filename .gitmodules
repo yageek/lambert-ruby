@@ -1,3 +1,0 @@
-[submodule "ext/lambert_ruby/lambert"]
-	path = ext/lambert_ruby/lambert
-	url = https://github.com/yageek/lambert
