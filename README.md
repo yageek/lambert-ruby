@@ -2,6 +2,10 @@
 
 lambert_ruby is a wrapper to the [lambert](https://github.com/yageek/lambert) C library or [lambert-java](https://github.com/yageek/lambert-ruby) code.
 
+# Installation
+```
+gem install lambert_ruby
+```
 # Usage
 ```ruby
 require 'lambert_ruby'
