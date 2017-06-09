@@ -1,6 +1,6 @@
-# Description
+# lambert-ruby
 
-lambert_ruby is a wrapper to the [lambert](https://github.com/yageek/lambert) C library or [lambert-java](https://github.com/yageek/lambert-ruby) code.
+A wrapper to the [lambert](https://github.com/yageek/lambert) C library or [lambert-java](https://github.com/yageek/lambert-ruby) code.
 
 # Installation
 ```
